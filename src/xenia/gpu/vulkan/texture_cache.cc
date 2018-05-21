@@ -1072,6 +1072,11 @@ bool TextureCache::ConvertTexture(uint8_t* dest, VkBufferImageCopy* copy_region,
 bool TextureCache::UploadTexture(VkCommandBuffer command_buffer,
                                  VkFence completion_fence, Texture* dest,
                                  const TextureInfo& src) {
+	auto start_mips = src.mip_levels;
+	auto src_ptr = &src;
+	auto src_ptr2 = (TextureInfo*)src_ptr;
+	src_ptr2->mip_levels = 1;
+
 #if FINE_GRAINED_DRAW_SCOPES
   SCOPE_profile_cpu_f("gpu");
 #endif  // FINE_GRAINED_DRAW_SCOPES
@@ -1106,7 +1111,7 @@ bool TextureCache::UploadTexture(VkCommandBuffer command_buffer,
       XELOGE(
           "TextureCache staging buffer is too small! (uploading 0x%.8X bytes)",
           total_unpack_length);
-      assert_always();
+      //assert_always();
       return false;
     }
   }
