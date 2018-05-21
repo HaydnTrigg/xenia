@@ -408,7 +408,7 @@ void CheckResult(VkResult result, const char* action) {
   if (result) {
     XELOGE("Vulkan check: %s returned %s", action, to_string(result));
   }
-  assert_true(result == VK_SUCCESS, action);
+  //assert_true(result == VK_SUCCESS, action);
 }
 
 std::pair<bool, std::vector<const char*>> CheckRequirements(

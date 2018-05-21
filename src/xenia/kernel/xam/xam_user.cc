@@ -379,16 +379,6 @@ SHIM_CALL XamUserCheckPrivilege_shim(PPCContext* ppc_context,
   XELOGD("XamUserCheckPrivilege(%d, %.8X, %.8X)", user_index, mask,
          out_value_ptr);
 
-  if ((user_index & 0xFF) == 0xFF) {
-    // Always pin user to 0.
-    user_index = 0;
-  }
-
-  if (user_index) {
-    SHIM_SET_RETURN_32(X_ERROR_NO_SUCH_USER);
-    return;
-  }
-
   // If we deny everything, games should hopefully not try to do stuff.
   SHIM_SET_MEM_32(out_value_ptr, 0);
 
@@ -402,16 +392,6 @@ SHIM_CALL XamUserContentRestrictionGetFlags_shim(PPCContext* ppc_context,
 
   XELOGD("XamUserContentRestrictionGetFlags(%d, %.8X)", user_index,
          out_flags_ptr);
-
-  if ((user_index & 0xFF) == 0xFF) {
-    // Always pin user to 0.
-    user_index = 0;
-  }
-
-  if (user_index) {
-    SHIM_SET_RETURN_32(X_ERROR_NO_SUCH_USER);
-    return;
-  }
 
   // No restrictions?
   SHIM_SET_MEM_32(out_flags_ptr, 0);
@@ -428,16 +408,6 @@ SHIM_CALL XamUserContentRestrictionGetRating_shim(PPCContext* ppc_context,
 
   XELOGD("XamUserContentRestrictionGetRating(%d, %.8X, %.8X, %.8X)", user_index,
          unk1, out_unk2_ptr, out_unk3_ptr);
-
-  if ((user_index & 0xFF) == 0xFF) {
-    // Always pin user to 0.
-    user_index = 0;
-  }
-
-  if (user_index) {
-    SHIM_SET_RETURN_32(X_ERROR_NO_SUCH_USER);
-    return;
-  }
 
   // Some games have special case paths for 3F that differ from the failure
   // path, so my guess is that's 'don't care'.
@@ -483,8 +453,7 @@ SHIM_CALL XamUserAreUsersFriends_shim(PPCContext* ppc_context,
   XELOGD("XamUserAreUsersFriends(%d, %.8X, %.8X, %.8X, %.8X)", user_index, unk1,
          unk2, out_value_ptr, overlapped_ptr);
 
-  if ((user_index & 0xFF) == 0xFF) {
-    // Always pin user to 0.
+  if (user_index == 255) {
     user_index = 0;
   }
 

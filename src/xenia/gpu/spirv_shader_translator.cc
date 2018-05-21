@@ -3332,12 +3332,13 @@ void SpirvShaderTranslator::StoreToResult(Id source_value_id,
       break;
     default:
     case InstructionStorageTarget::kNone:
-      assert_unhandled_case(result.storage_target);
+      //assert_unhandled_case(result.storage_target);
+		//return;
       break;
   }
 
   if (!storage_pointer) {
-    assert_always();
+    //assert_always();
     return;
   }
 

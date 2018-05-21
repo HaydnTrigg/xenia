@@ -809,6 +809,11 @@ bool VulkanCommandProcessor::PopulateVertexBuffers(
   auto descriptor_set = buffer_cache_->PrepareVertexSet(
       setup_buffer, current_batch_fence_, vertex_bindings);
 
+  if (!descriptor_set)
+  {
+	  return false;
+  }
+
   vkCmdBindDescriptorSets(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS,
                           pipeline_cache_->pipeline_layout(), 2, 1,
                           &descriptor_set, 0, nullptr);
@@ -988,7 +993,7 @@ bool VulkanCommandProcessor::IssueCopy() {
     };
     color_edram_base = color_info[copy_src_select].color_base;
     color_format = color_info[copy_src_select].color_format;
-    assert_true(color_info[copy_src_select].color_exp_bias == 0);
+    //assert_true(color_info[copy_src_select].color_exp_bias == 0);
   }
 
   if (!is_color_source || depth_clear_enabled) {
